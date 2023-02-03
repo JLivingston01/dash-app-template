@@ -6,9 +6,13 @@ from dash import (
     Output
 )
 
+from flask import Flask
+
 def create_app():
 
-    app = Dash(__name__)
+    server = Flask(__name__)
+
+    app = Dash(__name__,server=server)
 
     app.layout=html.Div(
         [
@@ -85,7 +89,7 @@ def create_app():
 
 def main():
     app=create_app()
-    app.run_server(debug=True)
+    app.run_server()
 
 if __name__=='__main__':
     main()
