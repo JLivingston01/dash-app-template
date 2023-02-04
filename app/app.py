@@ -6,9 +6,14 @@ from dash import (
     Output
 )
 
-def create_app():
+from flask import Flask
 
-    app = Dash(__name__)
+
+def create_dash(server):
+
+    app = Dash(__name__,
+    server=server,
+    url_base_pathname='/')
 
     app.layout=html.Div(
         [
@@ -83,9 +88,20 @@ def create_app():
 
     return app
 
+def create_app():
+    server = Flask(__name__)
+    app = create_dash(server=server)
+
+    @server.route("/")
+    def home():
+        return app.index()
+    
+    return server
+
 def main():
     app=create_app()
-    app.run_server(debug=True)
+    app.run()
+    return
 
 if __name__=='__main__':
     main()
